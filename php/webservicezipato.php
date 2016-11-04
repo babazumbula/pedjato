@@ -7,15 +7,15 @@
 				
 				case "nop" :
 					$url = "https://my.zipato.com:443/zipato-web/v2/user/nop";
-					webserviceAction($url,$jsessionid);
+					webserviceAction($url,$jsessionid, true);
 				break;
 				case "login" :
 					$url = "https://my.zipato.com:443/zipato-web/v2/user/init";
-					$result = webserviceAction($url,$jsessionid);					
+					$result = webserviceAction($url,$jsessionid, false);					
 					if($result['success'] == true){
 						$token = sha1($result["nonce"]."e7b64e474e3fe41adee21fe9de8a1c2098873c83");
 						$jsessionid = "Cookie:".$result["jsessionid"];
-						$url = "https://my.zipato.com/zipato-web/v2/user/login?token=".$token."&username=pedja0106@gmail.com";
+						$url = "https://my.zipato.com/zipato-web/v2/user/login?token=".$token."&username=pedja0106%40gmail.com";
 						webserviceloginAction($url,$jsessionid);
 						
 					}
@@ -23,7 +23,7 @@
 			
 			
 			
-		function webserviceAction($url,$jsessionid){
+		function webserviceAction($url,$jsessionid,$echoOutput){
 			$ch = curl_init(); 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 			curl_setopt($ch, CURLOPT_HEADER, false); 
@@ -32,8 +32,10 @@
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			
-			$output = curl_exec($ch); 		
-			echo $output;
+			$output = curl_exec($ch); 	
+			if($echoOutput){
+				echo $output;
+			}
 			return json_decode($output, true);
 		};
                 
@@ -58,12 +60,13 @@
 				'Referer: https://my.zipato.com/zipato-web/app2login',
 				$jsessionid
 			));
+			/*
 			curl_setopt($ch, CURLOPT_VERBOSE, true);
 			$verbose = fopen('php://temp', 'w+');
 			curl_setopt($ch, CURLOPT_STDERR, $verbose);
-			
+			*/
 			$output = curl_exec($ch); 
-
+/*
 			
 			if ($output === FALSE) {
 				printf("cUrl error (#%d): %s<br>\n", curl_errno($ch),
@@ -74,7 +77,7 @@
 			$verboseLog = stream_get_contents($verbose);
 
 			echo "Verbose information:\n<pre>", htmlspecialchars($verboseLog), "</pre>\n";
-			
+			*/
 			echo $output;
 			//return json_decode($output, true);
 		};

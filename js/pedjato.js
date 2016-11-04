@@ -13,7 +13,7 @@ $(function() {
 		 success:function(json){/*
 			 $.each( json.query, function( key, val ) {
 				console.log(key + ":" + val);
-			});*/
+			});*/			 
 			 console.log(json);
 		 },
 		 error:function(xhr, status){
